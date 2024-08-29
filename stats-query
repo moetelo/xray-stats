@@ -14,9 +14,9 @@ if [ -z "$ddate" ]; then
     ddate=$(date +%F)
 fi
 
-echo -e "\033[1;33mDate:  \033[1;0m$ddate"
+echo -e "\033[1;33mDate:  \033[1;0m$ddate\033[1;0m"
 echo
-echo -e "           \033[1;34m↓ down (mb) \033[1;32m↑ up (mb)"
+echo -e "           \033[1;34m↓ down (mb) \033[1;32m↑ up (mb)\033[1;0m"
 
 source $(dirname $0)/stats-utils.sh
 
@@ -27,6 +27,6 @@ for user in $trafficDataDir/*; do
     downMb=$(echo "scale=0; $down / 1024 / 1024" | bc)
     upMb=$(echo "scale=0; $up / 1024 / 1024" | bc)
 
-    printf "%-10s \033[1;34m%10s \033[1;32m%10s\n" \
+    printf "%-10s \033[1;34m%10s \033[1;32m%10s\033[1;0m\n" \
         $(basename $user) $downMb $upMb
 done
