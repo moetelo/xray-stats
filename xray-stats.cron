@@ -1,0 +1,2 @@
+00 * * * * /usr/local/bin/stats-collect <traffic-data-dir>
+01 0 * * * /usr/local/bin/stats-shrink <traffic-data-dir>

@@ -1,0 +1,21 @@
+#!/bin/env bash
+
+set -eo pipefail
+
+trafficDataDir=$1
+
+if [ -z $trafficDataDir ]; then
+    echo "Usage: $0 <traffic-data-dir>"
+    exit 1
+fi
+
+source $(dirname $0)/stats-utils.sh
+
+shrink() {
+    echo $(sum $file) > $file
+}
+
+for user in $trafficDataDir/*; do
+    shrink "$user/down/$(date -d yesterday +%F)"
+    shrink "$user/up/$(date -d yesterday +%F)"
+done

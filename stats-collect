@@ -1,0 +1,24 @@
+#!/bin/env bash
+
+set -eo pipefail
+
+trafficDataDir=$1
+
+if [ -z $trafficDataDir ]; then
+    echo "Usage: $0 <traffic-data-dir>"
+    exit 1
+fi
+
+stats=$(xray api statsquery -reset)
+user_down_up=$(jq -r -f "$(dirname $0)/stats-to-user-down-up.jq" <<< "$stats")
+
+mkdir -p $trafficDataDir
+while IFS= read -r line; do
+    read -r user down up <<< "$line"
+    echo "[stats-collect] user: $user, down: $down, up: $up"
+
+    mkdir -p $trafficDataDir/$user/down
+    mkdir -p $trafficDataDir/$user/up
+    echo "$down" >> $trafficDataDir/$user/down/$(date +%F)
+    echo "$up" >> $trafficDataDir/$user/up/$(date +%F)
+done <<< "$user_down_up"

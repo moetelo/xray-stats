@@ -1,0 +1,32 @@
+#!/bin/env bash
+
+set -eo pipefail
+
+trafficDataDir=$1
+ddate=$2
+
+if [ -z $trafficDataDir ]; then
+    echo "Usage: $0 <traffic-data-dir> [date=today (yyyy-mm-dd)]"
+    exit 1
+fi
+
+if [ -z "$ddate" ]; then
+    ddate=$(date +%F)
+fi
+
+echo -e "\033[1;33mDate:  \033[1;0m$ddate"
+echo
+echo -e "           \033[1;34m↓ down (mb) \033[1;32m↑ up (mb)"
+
+source $(dirname $0)/stats-utils.sh
+
+for user in $trafficDataDir/*; do
+    down=$(sum $user/down/$ddate 2>/dev/null || echo 0)
+    up=$(sum $user/up/$ddate 2>/dev/null || echo 0)
+
+    downMb=$(echo "scale=0; $down / 1024 / 1024" | bc)
+    upMb=$(echo "scale=0; $up / 1024 / 1024" | bc)
+
+    printf "%-10s \033[1;34m%10s \033[1;32m%10s\n" \
+        $(basename $user) $downMb $upMb
+done
