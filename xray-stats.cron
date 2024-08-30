@@ -1,2 +1,4 @@
-00 * * * * /usr/local/bin/stats-collect <traffic-data-dir>
-01 0 * * * /usr/local/bin/stats-shrink <traffic-data-dir>
+PATH=/usr/bin:/bin:/usr/local/bin
+
+00 * * * * stats-collect <traffic-data-dir>
+01 0 * * * stats-shrink <traffic-data-dir>
