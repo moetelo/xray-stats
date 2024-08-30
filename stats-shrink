@@ -16,6 +16,6 @@ shrink() {
 }
 
 for user in $trafficDataDir/*; do
-    shrink "$user/down/$(date -d yesterday +%F)"
-    shrink "$user/up/$(date -d yesterday +%F)"
+    shrink "$user/down/$(date +%F)"
+    shrink "$user/up/$(date +%F)"
 done
