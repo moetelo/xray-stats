@@ -2,16 +2,12 @@
 
 set -eo pipefail
 
-trafficDataDir=$1
-
-if [ -z $trafficDataDir ]; then
-    echo "Usage: $0 <traffic-data-dir>"
-    exit 1
-fi
+source $(dirname $0)/stats-utils.sh
 
 stats=$(xray api statsquery -reset)
 user_down_up=$(jq -r -f "$(dirname $0)/stats-to-user-down-up.jq" <<< "$stats")
 
+trafficDataDir=$(get-traffic-data-directory)
 mkdir -p $trafficDataDir
 while IFS= read -r line; do
     read -r user down up <<< "$line"

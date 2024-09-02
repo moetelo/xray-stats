@@ -1,5 +1,9 @@
 #!/bin/env bash
 
+get-traffic-data-directory() {
+    cat /usr/local/etc/xray-stats/directory
+}
+
 sum() {
     local file=$1
 

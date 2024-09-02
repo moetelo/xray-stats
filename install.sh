@@ -17,12 +17,10 @@ if [ $trafficDataDir == '--default' ]; then
     trafficDataDir=$DEFAULT_TRAFFIC_DATA_DIR
 fi
 
-sed "s|<traffic-data-dir>|$trafficDataDir|g" xray-stats.cron \
-    | crontab -
+mkdir -p /usr/local/etc/xray-stats
+echo "$trafficDataDir" > /usr/local/etc/xray-stats/directory
 
-cp stats-utils.sh /usr/local/bin
-cp stats-query /usr/local/bin
-cp stats-shrink /usr/local/bin
+cat xray-stats.cron | crontab -
 
-cp stats-collect /usr/local/bin
-cp stats-to-user-down-up.jq /usr/local/bin
+cp stats-utils.sh stats-query stats-shrink stats-collect stats-to-user-down-up.jq \
+    /usr/local/bin
