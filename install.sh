@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-DEFAULT_TRAFFIC_DATA_DIR=/usr/local/etc/traffic-data
+DEFAULT_TRAFFIC_DATA_DIR=/var/local/xray-traffic
 
 trafficDataDir=$1
 
