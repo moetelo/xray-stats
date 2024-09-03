@@ -5,15 +5,14 @@ set -eo pipefail
 DEFAULT_TRAFFIC_DATA_DIR=/var/local/xray-traffic
 
 trafficDataDir=$1
-
-if [ -z $trafficDataDir ]; then
+if [ "$trafficDataDir" == '--help' ]; then
+    echo "Usage: $0"
     echo "Usage: $0 <traffic-data-dir>"
-    echo "Usage: $0 --default"
     echo "(defaults to $DEFAULT_TRAFFIC_DATA_DIR)"
     exit 1
 fi
 
-if [ $trafficDataDir == '--default' ]; then
+if [ -z $trafficDataDir ]; then
     trafficDataDir=$DEFAULT_TRAFFIC_DATA_DIR
 fi
 
