@@ -7,10 +7,10 @@ get-traffic-data-directory() {
 sum() {
     local file=$1
 
-    if [ ! -f $file ]; then
-        return 1
+    if [ ! -f "$file" ]; then
+        echo 0
+        return
     fi
 
-    local sum=$(cat $file | paste -sd+ - | bc)
-    echo $sum
+    grep '^[0-9]\+$' "$file" | paste -sd+ - | bc
 }

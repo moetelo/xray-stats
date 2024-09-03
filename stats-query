@@ -14,8 +14,11 @@ echo
 echo -e "           \033[1;34m↓ down (mb) \033[1;32m↑ up (mb)\033[1;0m"
 
 for user in $(get-traffic-data-directory)/*; do
-    down=$(sum $user/down/$ddate 2>/dev/null || echo 0)
-    up=$(sum $user/up/$ddate 2>/dev/null || echo 0)
+    down=$(sum $user/down/$ddate)
+    up=$(sum $user/up/$ddate)
+
+    down=${down:-0}
+    up=${up:-0}
 
     downMb=$(echo "scale=0; $down / 1024 / 1024" | bc)
     upMb=$(echo "scale=0; $up / 1024 / 1024" | bc)
