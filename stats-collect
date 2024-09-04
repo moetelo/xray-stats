@@ -4,8 +4,8 @@ set -eo pipefail
 
 source $(dirname $0)/stats-utils.sh
 
-stats=$(xray api statsquery -reset)
-user_down_up=$(jq -r -f "$(dirname $0)/stats-to-user-down-up.jq" <<< "$stats")
+stats=$(/usr/local/bin/xray api statsquery -reset)
+user_down_up=$(/usr/bin/jq -r -f "$(dirname $0)/stats-to-user-down-up.jq" <<< "$stats")
 
 trafficDataDir=$(get-traffic-data-directory)
 mkdir -p $trafficDataDir
