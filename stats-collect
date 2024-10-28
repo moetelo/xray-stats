@@ -10,6 +10,10 @@ user_down_up=$(/usr/bin/jq -r -f "$(dirname $0)/stats-to-user-down-up.jq" <<< "$
 trafficDataDir=$(get-traffic-data-directory)
 mkdir -p "$trafficDataDir"
 while IFS= read -r line; do
+    if [[ -z "$line" ]]; then
+        continue
+    fi
+
     read -r user down up <<< "$line"
     echo "[stats-collect] user: $user, down: $down, up: $up"
 
