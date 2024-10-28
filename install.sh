@@ -12,14 +12,14 @@ if [ "$trafficDataDir" == '--help' ]; then
     exit 1
 fi
 
-if [ -z $trafficDataDir ]; then
+if [ -z "$trafficDataDir" ]; then
     trafficDataDir=$DEFAULT_TRAFFIC_DATA_DIR
 fi
 
 mkdir -p /usr/local/etc/xray-stats
 echo "$trafficDataDir" > /usr/local/etc/xray-stats/directory
 
-cat xray-stats.cron | crontab -
+crontab < xray-stats.cron
 
 cp stats-utils.sh stats-query stats-shrink stats-collect stats-to-user-down-up.jq \
     /usr/local/bin

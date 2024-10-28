@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-source $(dirname $0)/stats-utils.sh
+source "$(dirname $0)/stats-utils.sh"
 
 ddate=$1
 if [ -z "$ddate" ]; then
@@ -13,9 +13,9 @@ echo -e "\033[1;33mDate:  \033[1;0m$ddate\033[1;0m"
 echo
 echo -e "           \033[1;34m↓ down (mb) \033[1;32m↑ up (mb)\033[1;0m"
 
-for user in $(get-traffic-data-directory)/*; do
-    down=$(sum $user/down/$ddate)
-    up=$(sum $user/up/$ddate)
+for user in "$(get-traffic-data-directory)"/*; do
+    down=$(sum "$user/down/$ddate")
+    up=$(sum "$user/up/$ddate")
 
     down=${down:-0}
     up=${up:-0}
@@ -24,5 +24,5 @@ for user in $(get-traffic-data-directory)/*; do
     upMb=$(echo "scale=0; $up / 1024 / 1024" | bc)
 
     printf "%-10s \033[1;34m%10s \033[1;32m%10s\033[1;0m\n" \
-        $(basename $user) $downMb $upMb
+        "$(basename "$user")" "$downMb" "$upMb"
 done
