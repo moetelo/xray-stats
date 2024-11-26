@@ -11,16 +11,15 @@ if [ "$1" == "--plain" ]; then
 fi
 
 queryDate=${1:-$(date +%F)}
+queryUser=${2:-*}
 
-if [ "$isPlainOutput" = true ]; then
-    echo "user down_bytes up_bytes"
-else
+if [ "$isPlainOutput" != true ]; then
     echo -e "\033[1;33mDate:  \033[1;0m$queryDate\033[1;0m"
     echo
     echo -e "           \033[1;34m↓ down (mb) \033[1;32m↑ up (mb)\033[1;0m"
 fi
 
-for user in "$TRAFFIC_DIR"/*; do
+for user in "$TRAFFIC_DIR"/$queryUser; do
     down=$(sum-num-file "$user/down/$queryDate")
     up=$(sum-num-file "$user/up/$queryDate")
 
