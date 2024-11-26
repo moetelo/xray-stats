@@ -2,38 +2,37 @@
 
 set -eo pipefail
 
-source "$(dirname $0)/stats-utils.sh"
+source "$(dirname "$0")/stats-utils.sh"
 
-plain_output=false
+isPlainOutput=false
 if [ "$1" == "--plain" ]; then
-    plain_output=true
+    isPlainOutput=true
     shift
 fi
 
-ddate=${1:-$(date +%F)}
+queryDate=${1:-$(date +%F)}
 
-if [ "$plain_output" = true ]; then
-    echo "user down_mb up_mb"
+if [ "$isPlainOutput" = true ]; then
+    echo "user down_bytes up_bytes"
 else
-    echo -e "\033[1;33mDate:  \033[1;0m$ddate\033[1;0m"
+    echo -e "\033[1;33mDate:  \033[1;0m$queryDate\033[1;0m"
     echo
     echo -e "           \033[1;34m↓ down (mb) \033[1;32m↑ up (mb)\033[1;0m"
 fi
 
-for user in "$(get-traffic-data-directory)"/*; do
-    down=$(sum "$user/down/$ddate")
-    up=$(sum "$user/up/$ddate")
+for user in "$TRAFFIC_DIR"/*; do
+    down=$(sum-num-file "$user/down/$queryDate")
+    up=$(sum-num-file "$user/up/$queryDate")
 
     down=${down:-0}
     up=${up:-0}
-
-    downMb=$(echo "scale=0; $down / 1024 / 1024" | bc)
-    upMb=$(echo "scale=0; $up / 1024 / 1024" | bc)
-
-    if [ "$plain_output" = true ]; then
-        echo "$(basename "$user") $downMb $upMb"
-    else
-        printf "%-10s \033[1;34m%10s \033[1;32m%10s\033[1;0m\n" \
-            "$(basename "$user")" "$downMb" "$upMb"
+    username=$(basename "$user")
+    if [ "$isPlainOutput" = true ]; then
+        echo "$username $down $up"
+        continue
     fi
+
+    downMb=$((down / 1024 / 1024))
+    upMb=$((up / 1024 / 1024))
+    printf "%-10s \033[1;34m%10s \033[1;32m%10s\033[1;0m\n" "$username" "$downMb" "$upMb"
 done

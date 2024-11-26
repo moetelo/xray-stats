@@ -5,10 +5,10 @@ set -eo pipefail
 source "$(dirname $0)/stats-utils.sh"
 
 shrink() {
-    echo "$(sum $1)" > "$1"
+    echo "$(sum-num-file $1)" > "$1"
 }
 
-for user in "$(get-traffic-data-directory)"/*; do
+for user in "$TRAFFIC_DIR"/*; do
     shrink "$user/down/$(date +%F)"
     shrink "$user/up/$(date +%F)"
 done

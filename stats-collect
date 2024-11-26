@@ -7,8 +7,7 @@ source "$(dirname $0)/stats-utils.sh"
 stats=$(/usr/local/bin/xray api statsquery -reset)
 user_down_up=$(/usr/bin/jq -r -f "$(dirname $0)/stats-to-user-down-up.jq" <<< "$stats")
 
-trafficDataDir=$(get-traffic-data-directory)
-mkdir -p "$trafficDataDir"
+mkdir -p "$TRAFFIC_DIR"
 while IFS= read -r line; do
     if [[ -z "$line" ]]; then
         continue
@@ -17,8 +16,8 @@ while IFS= read -r line; do
     read -r user down up <<< "$line"
     echo "[stats-collect] user: $user, down: $down, up: $up"
 
-    mkdir -p "$trafficDataDir/$user/down"
-    mkdir -p "$trafficDataDir/$user/up"
-    echo "$down" >> "$trafficDataDir/$user/down/$(date +%F)"
-    echo "$up" >> "$trafficDataDir/$user/up/$(date +%F)"
+    mkdir -p "$TRAFFIC_DIR/$user/down"
+    mkdir -p "$TRAFFIC_DIR/$user/up"
+    echo "$down" >> "$TRAFFIC_DIR/$user/down/$(date +%F)"
+    echo "$up" >> "$TRAFFIC_DIR/$user/up/$(date +%F)"
 done <<< "$user_down_up"
