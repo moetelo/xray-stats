@@ -13,7 +13,7 @@ jq '
     .policy.system.statsInboundDownlink = false |
     .policy.system.statsOutboundUplink = true |
     .policy.system.statsOutboundDownlink = true |
-    .api.services += ["StatsService", "LoggerService", "HandlerService"]
+    .api.services = ["StatsService", "LoggerService", "HandlerService"]
 ' "$ff" | sponge "$ff"
 
 systemctl restart xray
