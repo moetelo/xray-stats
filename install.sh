@@ -16,6 +16,8 @@ if [ -z "$trafficDataDir" ]; then
     trafficDataDir=$DEFAULT_TRAFFIC_DATA_DIR
 fi
 
+./enable-stats.sh /usr/local/etc/xray/config.json
+
 mkdir -p /usr/local/etc/xray-stats
 echo "$trafficDataDir" > /usr/local/etc/xray-stats/directory
 
