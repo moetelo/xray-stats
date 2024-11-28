@@ -1,2 +1,2 @@
-*/5 * * * * /usr/local/bin/stats-collect
-01 * * * * /usr/local/bin/stats-shrink
+*/2 * * * * /usr/local/bin/stats-collect
+29,59 * * * * /usr/local/bin/stats-shrink
