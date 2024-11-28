@@ -28,6 +28,10 @@ print-user-stats() {
     local down=${2:-0}
     local up=${3:-0}
 
+    if [ "$down" -eq 0 ] && [ "$up" -eq 0 ]; then
+        return
+    fi
+
     if [ "$isPlainOutput" = true ]; then
         echo "$username $down $up"
         return
