@@ -4,6 +4,6 @@
 TRAFFIC_DIR=$(</usr/local/etc/xray-stats/directory)
 
 sum-num-file() {
-    awk '/^[0-9]+$/ {sum += $1} END {print sum}' "$@" 2> /dev/null \
+    awk -v OFMT='%.f' '/^[0-9]+$/ {sum += $1} END {print sum}' "$@" 2> /dev/null \
         || echo 0
 }
