@@ -64,20 +64,16 @@ query-monthly() {
     print-header "$queryUser" "$queryDate"
 
     for userDir in "$TRAFFIC_DIR"/$queryUser; do
-        username=$(basename "$userDir")
         local down=0
         local up=0
 
-        for day in "$userDir/down/$queryDate-"*; do
-            if [[ ! -f "$day" ]]; then
-                continue
-            fi
+        downFiles=("$userDir/down/$queryDate-"*)
+        upFiles=("$userDir/up/$queryDate-"*)
 
-            day=$(basename "$day")
-            down=$((down + $(sum-num-file "$userDir/down/$day")))
-            up=$((up + $(sum-num-file "$userDir/up/$day")))
-        done
+        down=$(sum-num-file "${downFiles[@]}")
+        up=$(sum-num-file "${upFiles[@]}")
 
+        username=$(basename "$userDir")
         print-user-stats "$username" "$down" "$up"
     done
 }
