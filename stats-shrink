@@ -10,7 +10,12 @@ shrink() {
     echo "$(sum-num-file $1)" > "$1"
 }
 
-for user in "$TRAFFIC_DIR"/*; do
-    shrink "$user/down/$shrinkDate"
-    shrink "$user/up/$shrinkDate"
+# shellcheck disable=SC2231 # Can contain globs. stats-shrink '2024-09-*'
+for statsFile in "$TRAFFIC_DIR"/*/{down,up}/$shrinkDate; do
+    if [ ! -f "$statsFile" ]; then
+        continue
+    fi
+
+    echo "Shrink: ""$statsFile"
+    shrink "$statsFile"
 done

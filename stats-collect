@@ -16,8 +16,7 @@ while IFS= read -r line; do
     read -r user down up <<< "$line"
     echo "[stats-collect] user: $user, down: $down, up: $up"
 
-    mkdir -p "$TRAFFIC_DIR/$user/down"
-    mkdir -p "$TRAFFIC_DIR/$user/up"
+    mkdir -p "$TRAFFIC_DIR/$user/down" "$TRAFFIC_DIR/$user/up"
     echo "$down" >> "$TRAFFIC_DIR/$user/down/$(date +%F)"
     echo "$up" >> "$TRAFFIC_DIR/$user/up/$(date +%F)"
 done <<< "$user_down_up"
